@@ -1,9 +1,8 @@
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require("openai");
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
 });
-const openai = new OpenAIApi(configuration);
 
 async function generateInsights(answers) {
   const prompt = `
@@ -18,15 +17,15 @@ Strukturiere die Analyse bitte so:
 3. Konkrete Handlungsempfehlungen (Bulletpoints)
 `;
 
-  const response = await openai.createChatCompletion({
+  const chatCompletion = await openai.chat.completions.create({
     model: "gpt-4",
     messages: [
       { role: "system", content: "Du schreibst klare, direkte Vertriebsanalysen im Stil eines Diagnostikers." },
-      { role: "user", content: prompt },
-    ],
+      { role: "user", content: prompt }
+    ]
   });
 
-  return response.data.choices[0].message.content;
+  return chatCompletion.choices[0].message.content;
 }
 
 module.exports = { generateInsights };
