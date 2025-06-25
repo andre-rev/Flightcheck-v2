@@ -10,6 +10,11 @@ app.use(express.json());
 
 app.use("/api/evaluate", evaluateRoute); // <== NEU
 
+// HIER den Test-Endpunkt einfügen:
+app.post("/api/test", (req, res) => {
+  res.json({ msg: "API läuft!" });
+});
+
 app.get("/", (req, res) => {
   res.send("Flightcheck 2.0 läuft ✅");
 });
